@@ -85,6 +85,50 @@ public:
         else
             return (((double)merged[merged.size() / 2] + merged[merged.size() / 2 - 1]) / 2);
     }
+
+    std::string longestPalindrome(std::string s) {
+        //badfdab
+        //badffdab
+        //asdbaadfdfdaab
+        //baadfdfdaabdsa
+
+        int s_len = s.length();
+
+        std::unordered_map<int, std::pair<int, int>> pals;
+        std::pair<int, int> longest_index_n_size = { 0 /*start index*/,1 /*length*/ };
+        std::string longest_pal = std::string{ s[0] };
+
+        for (int i = 1; i < s_len; i++)
+        {
+            int j = i - 1;
+            for (;j >= 0 && s[j] == s[i]; --j)
+                pals[i] = { j , i };
+
+            if (j == i - 1 && i - 2 >= 0 && s[i] != s[i - 1] && s[i] == s[i - 2])
+                pals[i] = { i - 2, i };
+
+            for (auto it = pals.begin(); it != pals.end();)//ccbbddd
+            {
+                auto& pair = it->second;
+
+                if (pair.second - pair.first + 1 > longest_index_n_size.second)
+                    longest_index_n_size = { pair.first, pair.second - pair.first + 1 };
+
+                if (pair.first - 1 < 0 || pair.second - 1 >= s_len || s[pair.first - 1] != s[pair.second + 1])
+                {
+                    it = pals.erase(it);
+                    continue;
+                }
+
+                --pair.first;
+                ++pair.second;
+
+                it++;
+            }
+        }
+
+        return s.substr(longest_index_n_size.first, longest_index_n_size.second);
+    }
 };
 
 
