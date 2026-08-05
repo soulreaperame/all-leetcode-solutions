@@ -86,6 +86,7 @@ public:
             return (((double)merged[merged.size() / 2] + merged[merged.size() / 2 - 1]) / 2);
     }
 
+    // 5
     std::string longestPalindrome(std::string s) {
         //badfdab
         //badffdab
@@ -128,6 +129,56 @@ public:
         }
 
         return s.substr(longest_index_n_size.first, longest_index_n_size.second);
+    }
+
+    // 6
+    std::string convert(std::string s, int numRows) {
+        int s_len = s.length();
+        std::string res;
+
+        int initial_dist = numRows != 1 ? 2 + (numRows - 2) * 2 : 1; // 6
+        int current_dist = initial_dist; //6
+
+        int max_middle_row = (numRows - 2) * 2;
+        int middle = 0; // ..., 2, 4, 6, ... + 2
+
+        for (int c = 0; res.length() < s_len;)
+        {
+            res += s[c];
+
+            if (middle > 0 && middle <= max_middle_row && c + initial_dist - middle < s_len)
+            {
+                res += s[c + initial_dist - middle];
+            }
+
+            c += initial_dist; // 0 + 6 ... 6 + 6 ....;
+
+            if (c >= s_len)
+            {
+                middle += 2;
+                --current_dist; // 5
+                c = initial_dist - current_dist; // 6 - 5 = 1
+            }
+        }
+
+        /*
+        P       D
+        A     C F
+        Y   D   G
+        P F     J
+        A       L
+        */
+
+        /*
+        P         D
+        A       C F
+        Y     D   G
+        P   F     J
+        A R       L
+        S
+        */
+
+        return res;
     }
 };
 
