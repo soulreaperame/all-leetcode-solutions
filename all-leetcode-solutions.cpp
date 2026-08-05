@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <string>
 
 class Solution {
 public:
@@ -179,6 +180,15 @@ public:
         */
 
         return res;
+    }
+
+    // 7
+    int reverse(int x) 
+    {
+        std::string s = std::to_string(x);
+        std::reverse(s.begin(), s.end());
+        try { return x > 0 ? std::stoi(s) : std::stoi(s) * -1; }
+        catch (...) { return 0; }
     }
 };
 
