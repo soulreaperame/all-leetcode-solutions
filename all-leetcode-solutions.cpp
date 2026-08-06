@@ -190,6 +190,58 @@ public:
         try { return x > 0 ? std::stoi(s) : std::stoi(s) * -1; }
         catch (...) { return 0; }
     }
+
+    // 8
+    int myAtoi(std::string s)
+    {
+        int s_len = s.length();
+        int sign = 1;
+        bool start = false;
+        std::vector<int> v;
+        int res = 0;
+
+        for (int i = 0; i < s_len; i++)
+        {
+            if (start)
+            {
+                if (s[i] < '0' || s[i] > '9')
+                    break;
+
+                if (v.size() == 0 && s[i] == '0')
+                    continue;
+
+                v.push_back(s[i] - '0');
+                continue;
+            }
+
+
+            if (s[i] == '-' || s[i] == '+' || (s[i] >= '0' && s[i] <= '9'))
+            {
+                start = true;
+
+                if (s[i] == '-')
+                    sign *= -1;
+                else if (s[i] >= '1' && s[i] <= '9')
+                    v.push_back(s[i] - '0');
+            }
+            else if (s[i] == ' ')
+                continue;
+            else
+                break;
+        }
+
+        for (int j = 0; j < v.size(); j++)
+        {
+            if ((v[j] * std::pow(10, (v.size() - 1 - j)) * sign) + res > INT_MAX)
+                return INT_MAX;
+            else if ((v[j] * std::pow(10, (v.size() - 1 - j)) * sign) + res < INT_MIN)
+                return INT_MIN;
+
+            res += v[j] * std::pow(10, (v.size() - 1 - j)) * sign;
+        }
+
+        return res;
+    }
 };
 
 
