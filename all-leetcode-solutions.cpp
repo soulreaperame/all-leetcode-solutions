@@ -76,7 +76,8 @@ public:
     }
 
     // 4
-    double findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2) {
+    double findMedianSortedArrays(std::vector<int>& nums1, std::vector<int>& nums2) 
+    {
         std::vector<int> merged = nums1;
         merged.reserve(merged.size() + nums2.size());
         merged.insert(merged.end(), nums2.begin(), nums2.end());
@@ -88,7 +89,8 @@ public:
     }
 
     // 5
-    std::string longestPalindrome(std::string s) {
+    std::string longestPalindrome(std::string s) 
+    {
         //badfdab
         //badffdab
         //asdbaadfdfdaab
@@ -133,7 +135,8 @@ public:
     }
 
     // 6
-    std::string convert(std::string s, int numRows) {
+    std::string convert(std::string s, int numRows) 
+    {
         int s_len = s.length();
         std::string res;
 
@@ -241,6 +244,30 @@ public:
         }
 
         return res;
+    }
+
+    // 9
+    bool isPalindrome(int x)
+    {
+        //Follow up: Could you solve it without converting the integer to a string?
+
+        if (x < 0)
+            return false;
+
+        int arr[10];
+        int total_index = 0;
+
+        for (int i = x; i > 0; i /= 10, total_index++)
+            arr[total_index] = i % 10;
+
+        int size = total_index;
+        for (int i = 0; i < size / 2; i++)
+        {
+            if (arr[i] != arr[size - 1 - i])
+                return false;
+        }
+
+        return true;
     }
 };
 
